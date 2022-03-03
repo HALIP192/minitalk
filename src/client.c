@@ -6,7 +6,7 @@
 /*   By: ntitan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:19:20 by ntitan            #+#    #+#             */
-/*   Updated: 2022/03/03 15:55:59 by ntitan           ###   ########.fr       */
+/*   Updated: 2022/03/03 17:25:58 by ntitan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,26 @@ static	void	send_mesage(int pid, char *str)
 {
 	int		cur_bit;
 	char	cur_c;
-
+	
 	while (*str)
 	{
-		cur_bit = 0;
+		cur_bit = 7;
 		cur_c = *str++;
-		while (cur_bit < 8)
+		while (cur_bit >= 0)
 		{
 			if (cur_c & (1 << cur_bit))
 				kill(pid, SIGUSR2);
 			else
 				kill(pid, SIGUSR1);
-			usleep(100);
-			cur_bit++;
+			usleep(200);
+			cur_bit--;
 		}
 
 	}
-	while (cur_bit--)
+	while (cur_bit++ < 8)
 	{
 		kill(pid, SIGUSR1);
-		usleep(100);
+		usleep(200);
 	}
 }
 
