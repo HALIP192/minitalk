@@ -6,7 +6,7 @@
 /*   By: ntitan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 14:11:29 by ntitan            #+#    #+#             */
-/*   Updated: 2022/03/03 14:11:34 by ntitan           ###   ########.fr       */
+/*   Updated: 2022/03/03 14:39:42 by ntitan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-void	ft_digit(char c);
-void	ft_isspace_atoi(int c);
-void	ft_atoi(const char *str);
+int		ft_digit(char c);
+int		ft_atoi(const char *str);
 
 #endif

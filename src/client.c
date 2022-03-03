@@ -6,18 +6,28 @@
 /*   By: ntitan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:19:20 by ntitan            #+#    #+#             */
-/*   Updated: 2022/03/03 14:09:08 by ntitan           ###   ########.fr       */
+/*   Updated: 2022/03/03 15:55:59 by ntitan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <client.h>
+#include "client.h"
 
 static void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }
 
-static	void	get_answer(int pid)
+static int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+static	void	get_answer(int sig)
 {
 	static int	 answer = 0;
 
@@ -25,14 +35,14 @@ static	void	get_answer(int pid)
 		answer++;
 	else
 	{
-		ft_purnbr_fd(answer, 1);
+		ft_putnbr_fd(answer, 1);
 		ft_putchar_fd('\n', 1);
 		exit(0);
 	}
 
 }
 
-static	void	send_msdge(int pid, char *str)
+static	void	send_mesage(int pid, char *str)
 {
 	int		cur_bit;
 	char	cur_c;
@@ -65,10 +75,10 @@ int		main(int argc, char **argv)
 			return (1);
 	ft_putstr_fd("To_server:\n", 1);
 	ft_putstr_fd(argv[2], 1);
-	ft_putstr_fd("Get_back", 1);
-	signal(SigUSR1, action);
-	signal(SIGUSR2, action);
-	send_msge(ft_atoi(argv[1]), argv[2]);
+	ft_putstr_fd("\nGet_back : \n", 1);
+	signal(SIGUSR1, get_answer);
+	signal(SIGUSR2, get_answer);
+	send_mesage(ft_atoi(argv[1]), argv[2]);
 	while (1)
 		pause();
 	return (0);
