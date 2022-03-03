@@ -6,11 +6,13 @@
 /*   By: ntitan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:19:20 by ntitan            #+#    #+#             */
-/*   Updated: 2022/03/03 17:25:58 by ntitan           ###   ########.fr       */
+/*   Updated: 2022/03/03 21:34:40 by ntitan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
+
+volatile sig_atomic_t	g_signal = 1;
 
 static void	ft_putchar_fd(char c, int fd)
 {
@@ -29,58 +31,53 @@ static int	ft_strlen(char *str)
 
 static	void	get_answer(int sig)
 {
-	static int	 answer = 0;
-
-	if (sig == SIGUSR1)
-		answer++;
-	else
-	{
-		ft_putnbr_fd(answer, 1);
-		ft_putchar_fd('\n', 1);
-		exit(0);
-	}
-
+	g_signal = sig;
 }
 
-static	void	send_mesage(int pid, char *str)
+static	int		send_message(pid_t pid, const char *str)
 {
-	int		cur_bit;
-	char	cur_c;
+	static int		helper = SIGUSR1 - SIGUSR2;
+	int				cur_bit;
+	unsigned char	cur_c;
 	
-	while (*str)
+	while (1)
 	{
-		cur_bit = 7;
-		cur_c = *str++;
-		while (cur_bit >= 0)
+		cur_bit = 0;
+		cur_c = *str;
+		while (cur_bit < 8)
 		{
-			if (cur_c & (1 << cur_bit))
-				kill(pid, SIGUSR2);
-			else
-				kill(pid, SIGUSR1);
-			usleep(200);
-			cur_bit--;
+			g_signal = 0;
+			if (kill(pid, (int)(cur_c >> cur_bit) & 1) * helper + SIGUSR2)
+				return (1);
+			while (!g_signal)
+			{
+			}
+			if (g_signal == SIGUSR2)
+				write(1, "Got it\n", 7);
+			++cur_bit;
 		}
-
+		if (!*str++)
+			break ;
 	}
-	while (cur_bit++ < 8)
-	{
-		kill(pid, SIGUSR1);
-		usleep(200);
-	}
+	return (0);
 }
 
 int		main(int argc, char **argv)
 {
+	pid_t	pid;
+
 	if (argc != 3 || !ft_strlen(argv[2]))
 			return (1);
+	pid = ft_atoi(argv[1]);
+	if (pid <= 0)
+	   return (1);	
 	ft_putstr_fd("To_server:\n", 1);
 	ft_putstr_fd(argv[2], 1);
 	ft_putstr_fd("\nGet_back : \n", 1);
 	signal(SIGUSR1, get_answer);
 	signal(SIGUSR2, get_answer);
-	send_mesage(ft_atoi(argv[1]), argv[2]);
-	while (1)
-		pause();
+	if (send_message(ft_atoi(argv[1]), argv[2]))
+			return ((int)(write(1, "Send message error\n", 19)));
 	return (0);
 }
 
