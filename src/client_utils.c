@@ -6,7 +6,7 @@
 /*   By: ntitan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 23:09:52 by ntitan            #+#    #+#             */
-/*   Updated: 2022/03/03 16:53:21 by ntitan           ###   ########.fr       */
+/*   Updated: 2022/03/06 22:44:49 by ntitan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,31 +68,13 @@ static int	ft_isspace_atoi(int c)
 		return (0);
 }
 
-int	ft_atoi(const char *str)
-{
-	int	i;
-	int	minus;
-	int	num;
-	int	count;
 
-	i = 0;
-	minus = 1;
-	num = 0;
-	count = 0;
-	while (ft_isspace_atoi(str[i]))
-		i = i + 1;
-	if (str[i] == '-')
-		minus = -1;
-	if (str[i] == '-' || str[i] == '+')
-		i = i + 1;
-	while (ft_digit(str[i]))
-	{
-		num = num * 10 + str[i++] - '0';
-		count++;
-	}
-	if (count >= 19 && minus == -1)
-		return (0);
-	else if (count >= 19)
-		return (-1);
-	return (num * minus);
+pid_t	ft_atoi(const char *str)
+{
+	pid_t	ans;
+
+	ans = 0;
+	while (*str >= '0' && *str <= '9')
+		ans = ans * 10 + *str++ - '0';
+	return (ans);
 }

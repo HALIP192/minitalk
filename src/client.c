@@ -6,7 +6,7 @@
 /*   By: ntitan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:19:20 by ntitan            #+#    #+#             */
-/*   Updated: 2022/03/03 21:34:40 by ntitan           ###   ########.fr       */
+/*   Updated: 2022/03/06 22:53:13 by ntitan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static	void	get_answer(int sig)
 static	int		send_message(pid_t pid, const char *str)
 {
 	static int		helper = SIGUSR1 - SIGUSR2;
-	int				cur_bit;
+	uint			cur_bit;
 	unsigned char	cur_c;
 	
 	while (1)
@@ -47,7 +47,7 @@ static	int		send_message(pid_t pid, const char *str)
 		while (cur_bit < 8)
 		{
 			g_signal = 0;
-			if (kill(pid, (int)(cur_c >> cur_bit) & 1) * helper + SIGUSR2)
+			if (kill(pid, (int)((cur_c >> cur_bit) & 0x1u) * helper + SIGUSR2))
 				return (1);
 			while (!g_signal)
 			{
@@ -76,7 +76,7 @@ int		main(int argc, char **argv)
 	ft_putstr_fd("\nGet_back : \n", 1);
 	signal(SIGUSR1, get_answer);
 	signal(SIGUSR2, get_answer);
-	if (send_message(ft_atoi(argv[1]), argv[2]))
+	if (send_message(pid , argv[2]))
 			return ((int)(write(1, "Send message error\n", 19)));
 	return (0);
 }
