@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   server.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntitan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/03 14:11:29 by ntitan            #+#    #+#             */
-/*   Updated: 2022/03/14 19:57:54 by ntitan           ###   ########.fr       */
+/*   Created: 2022/03/14 20:15:49 by ntitan            #+#    #+#             */
+/*   Updated: 2022/03/14 20:46:26 by ntitan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#ifndef SERVER_H
+# define SERVER_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <stdint.h>
+#include "signal.h"
+#include "unistd.h"
+#include "stdint.h"
 
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
-int		ft_digit(char c);
-pid_t	ft_atoi(const char *str);
+void	print_promt(pid_t pid)
+					__attribute__((__nothrow__));
+void	ft_memset64(uintmax_t *buff_ptr)
+					__attribute__((__nothrow__));
+void	ft_putunbr(unsigned char *start, pid_t pid);
 
 #endif
