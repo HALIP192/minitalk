@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   client_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntitan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/14 20:15:49 by ntitan            #+#    #+#             */
-/*   Updated: 2022/03/24 16:22:39 by ntitan           ###   ########.fr       */
+/*   Created: 2022/03/24 17:13:05 by ntitan            #+#    #+#             */
+/*   Updated: 2022/03/24 17:13:18 by ntitan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#ifndef CLIENT_BONUS_H
+# define CLIENT_BONUS_H
 
-# include "signal.h"
-# include "unistd.h"
-# include "stdint.h"
-# include "stdlib.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <signal.h>
+# include <stdint.h>
 
-void	print_promt(pid_t pid)
-		__attribute__((__nothrow__));
-void	ft_memset64(uintmax_t *buff_ptr)
-		__attribute__((__nothrow__));
-void	ft_putunbr(unsigned char *start, pid_t pid);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putnbr_fd(int n, int fd);
+int		ft_digit(char c);
+pid_t	ft_atoi(const char *str);
 
 #endif
